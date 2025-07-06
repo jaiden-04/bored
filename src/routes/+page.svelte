@@ -1,262 +1,481 @@
 <script lang="ts">
-	import '../global.css';
+	import { onMount } from 'svelte';
+
+	let username = '';
+	let password = '';
+	let data;
+	let error;
+	let clickCount = 0;
+	let backgroundColor = '#f0f0f0';
+
+	async function loadData() {
+		try {
+			const res = await fetch('/api/sitenotice');
+			if (!res.ok) throw new Error(await res.text());
+			
+			let sitenotice = document.getElementById('sitenotice');
+			let sitenoticeContent = document.getElementById('sitenotice-content');
+			
+			let text = await res.text();
+
+			if (text !== '') {
+				sitenoticeContent!.innerHTML = text;
+			} else {
+				sitenotice!.remove();
+			}
+
+		} catch (err) {
+			error = err instanceof Error ? err.message : 'An unknown error occurred';
+			console.log("Error loading data:", error);
+		}
+	}
+
+	loadData();
+
+	function login() {
+		if (username && password) {
+			alert('Login functionality would be implemented here.\nUsername: ' + username);
+		} else {
+			alert('Please enter both username and password.');
+		}
+	}
+
+	function register() {
+		alert('Registration page would open here.');
+	}
+
+	function handleForumClick(e: Event) {
+		e.preventDefault();
+		clickCount++;
+		console.log(`Forum link clicked! Total clicks: ${clickCount}`);
+
+		const messages = [
+			'Loading forum...',
+			'Connecting to server...',
+			'Retrieving posts...',
+			'Forum temporarily unavailable',
+			'This feature is under construction'
+		];
+
+		const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+		alert(randomMessage);
+	}
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			const colors = ['#f0f0f0', '#f5f5f5', '#e8e8e8', '#f0f8ff'];
+			backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+		}, 30000);
+
+		return () => clearInterval(interval);
+	});
 </script>
 
-<div class="hero-section">
-	<div class="hero-content">
-		<h1 class="hero-title">Welcome to TechForum</h1>
-		<p class="hero-subtitle">Connect, share, and learn with developers worldwide</p>
-		<div class="hero-stats">
-			<div class="stat-item">
-				<span class="stat-number">15.2k</span>
-				<span class="stat-label">Members</span>
-			</div>
-			<div class="stat-item">
-				<span class="stat-number">2.3k</span>
-				<span class="stat-label">Topics</span>
-			</div>
-			<div class="stat-item">
-				<span class="stat-number">45.8k</span>
-				<span class="stat-label">Posts</span>
-			</div>
+<svelte:head>
+	<title>SillyBB - Classic Discussion Board</title>
+</svelte:head>
+
+<div class="container" style="background-color: {backgroundColor};">
+	<!-- Header -->
+	<div class="header">
+		<h1>SillyBB</h1>
+		<p>Forum software that has a fake retro look :P</p>
+	</div>
+
+	<!-- Navigation -->
+	<div class="navigation">
+		<a href="#home" on:click={handleForumClick}>Home</a>
+		<a href="#search" on:click={handleForumClick}>Search</a>
+		<a href="#members" on:click={handleForumClick}>Members</a>
+		<a href="#help" on:click={handleForumClick}>Help</a>
+		<a href="#admin" on:click={handleForumClick}>Admin</a>
+	</div>
+
+	<!-- Announcement -->
+	<div class="announcement" id="sitenotice">
+		<content id="sitenotice-content"></content>
+	</div>
+
+	<!-- Login Form -->
+	<div class="login-form">
+		<strong>Quick Login:</strong>
+		<input type="text" placeholder="Username" bind:value={username} />
+		<input type="password" placeholder="Password" bind:value={password} />
+		<button on:click={login}>Login</button>
+		<button on:click={register}>Register</button>
+	</div>
+
+	<!-- Stats Bar -->
+	<div class="stats-bar">
+		<strong>Forum Stats:</strong> 1,337 Members | 42,069 Posts | 3,141 Topics | 13 Online Now
+	</div>
+
+	<!-- Main Forum Table -->
+	<table class="forum-table">
+		<thead>
+			<tr>
+				<th>📁</th>
+				<th>Forum</th>
+				<th>Topics</th>
+				<th>Posts</th>
+				<th>Last Post</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="sticky-post">
+				<td class="forum-icon">📌</td>
+				<td class="forum-name">
+					<a href="#announcements" on:click={handleForumClick}>Announcements</a>
+					<br /><span class="forum-description">Official site news and updates</span>
+				</td>
+				<td class="forum-stats">15</td>
+				<td class="forum-stats">89</td>
+				<td class="forum-lastpost">
+					<strong>Admin</strong><br />
+					Today, 14:32
+				</td>
+			</tr>
+			<tr>
+				<td class="forum-icon">💬</td>
+				<td class="forum-name">
+					<a href="#general" on:click={handleForumClick}>General Discussion</a>
+					<br /><span class="forum-description">Talk about anything and everything</span>
+				</td>
+				<td class="forum-stats">1,234</td>
+				<td class="forum-stats">15,678</td>
+				<td class="forum-lastpost">
+					<strong>RetroUser99</strong><br />
+					Today, 16:45
+				</td>
+			</tr>
+			<tr>
+				<td class="forum-icon">💻</td>
+				<td class="forum-name">
+					<a href="#tech" on:click={handleForumClick}>Technology</a>
+					<br /><span class="forum-description">Hardware, software, and tech support</span>
+				</td>
+				<td class="forum-stats">456</td>
+				<td class="forum-stats">8,901</td>
+				<td class="forum-lastpost">
+					<strong>TechWiz</strong><br />
+					Today, 15:20
+				</td>
+			</tr>
+			<tr>
+				<td class="forum-icon">🎮</td>
+				<td class="forum-name">
+					<a href="#gaming" on:click={handleForumClick}>Gaming</a>
+					<br /><span class="forum-description">Video games, reviews, and discussions</span>
+				</td>
+				<td class="forum-stats">789</td>
+				<td class="forum-stats">12,345</td>
+				<td class="forum-lastpost">
+					<strong>GameMaster</strong><br />
+					Today, 13:15
+				</td>
+			</tr>
+			<tr>
+				<td class="forum-icon">🎵</td>
+				<td class="forum-name">
+					<a href="#music" on:click={handleForumClick}>Music & Entertainment</a>
+					<br /><span class="forum-description">Share your favorite tunes and shows</span>
+				</td>
+				<td class="forum-stats">234</td>
+				<td class="forum-stats">3,456</td>
+				<td class="forum-lastpost">
+					<strong>MusicLover</strong><br />
+					Yesterday, 22:30
+				</td>
+			</tr>
+			<tr>
+				<td class="forum-icon">🔧</td>
+				<td class="forum-name">
+					<a href="#support" on:click={handleForumClick}>Technical Support</a>
+					<br /><span class="forum-description">Get help with forum issues</span>
+				</td>
+				<td class="forum-stats">67</td>
+				<td class="forum-stats">234</td>
+				<td class="forum-lastpost">
+					<strong>SupportGuru</strong><br />
+					Yesterday, 18:45
+				</td>
+			</tr>
+			<tr>
+				<td class="forum-icon">🗑️</td>
+				<td class="forum-name">
+					<a href="#offtopic" on:click={handleForumClick}>Off-Topic</a>
+					<br /><span class="forum-description">Random discussions and spam</span>
+				</td>
+				<td class="forum-stats">2,345</td>
+				<td class="forum-stats">25,678</td>
+				<td class="forum-lastpost">
+					<strong>RandomUser</strong><br />
+					Today, 16:58
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!-- Online Users -->
+	<div class="online-users">
+		<h3>👥 Currently Online Users (13):</h3>
+		<div class="user-list">
+			<a href="#user" on:click={handleForumClick}>Admin</a>
+			<a href="#user" on:click={handleForumClick}>RetroUser99</a>
+			<a href="#user" on:click={handleForumClick}>TechWiz</a>
+			<a href="#user" on:click={handleForumClick}>GameMaster</a>
+			<a href="#user" on:click={handleForumClick}>MusicLover</a>
+			<a href="#user" on:click={handleForumClick}>NewbiePoster</a>
+			<a href="#user" on:click={handleForumClick}>OldTimer</a>
+			<a href="#user" on:click={handleForumClick}>ForumLurker</a>
+			<a href="#user" on:click={handleForumClick}>CodeWarrior</a>
+			<a href="#user" on:click={handleForumClick}>PixelArtist</a>
+			<a href="#user" on:click={handleForumClick}>RetroGamer</a>
+			<a href="#user" on:click={handleForumClick}>ChatMaster</a>
+			<a href="#user" on:click={handleForumClick}>DialupUser</a>
 		</div>
+	</div>
+
+	<!-- Footer -->
+	<div class="footer">
+		<p class = blink>Powered by SillyBB</p>
+		<a href="https://github.com/jaiden-04/bored">View GitHub Repository</a>
+		<p><a href="mailto:admin@sillybb.net" style="color: #ffffff;">Contact Admin</a></p>
 	</div>
 </div>
 
-<div class="main-content">
-	<div class="container">
-		<div class="content-grid">
-			<!-- Forum Categories -->
-			<div class="forum-section">
-				<div class="section-header">
-					<h2 class="section-title">Categories</h2>
-					<button class="btn btn-primary">New Topic</button>
-				</div>
+<style>
+	/* Global CSS */
+	:global(*) {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
 
-				<div class="category-list">
-					<div class="category-card">
-						<div class="category-icon">
-							<i class="icon-code"></i>
-						</div>
-						<div class="category-content">
-							<h3 class="category-title">
-								<a href="/category/web-development">Web Development</a>
-							</h3>
-							<p class="category-description">HTML, CSS, JavaScript, React, Vue, and more</p>
-							<div class="category-stats">
-								<span class="stat">234 topics</span>
-								<span class="stat">1.2k posts</span>
-							</div>
-						</div>
-						<div class="category-activity">
-							<div class="latest-post">
-								<div class="post-avatar">
-									<img src="/images/avatars/user1.jpg" alt="User Avatar" />
-								</div>
-								<div class="post-info">
-									<a href="/topic/react-hooks" class="post-title">Understanding React Hooks</a>
-									<div class="post-meta">
-										<span class="post-author">by Alex Chen</span>
-										<span class="post-time">2 hours ago</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+	:global(body) {
+		font-family: 'Courier New', monospace;
+		background-color: #f0f0f0;
+		color: #333;
+		line-height: 1.4;
+		font-size: 12px;
+	}
 
-					<div class="category-card">
-						<div class="category-icon">
-							<i class="icon-mobile"></i>
-						</div>
-						<div class="category-content">
-							<h3 class="category-title">
-								<a href="/category/mobile-development">Mobile Development</a>
-							</h3>
-							<p class="category-description">iOS, Android, React Native, Flutter discussions</p>
-							<div class="category-stats">
-								<span class="stat">189 topics</span>
-								<span class="stat">956 posts</span>
-							</div>
-						</div>
-						<div class="category-activity">
-							<div class="latest-post">
-								<div class="post-avatar">
-									<img src="/images/avatars/user2.jpg" alt="User Avatar" />
-								</div>
-								<div class="post-info">
-									<a href="/topic/flutter-state" class="post-title">Flutter State Management</a>
-									<div class="post-meta">
-										<span class="post-author">by Maria Rodriguez</span>
-										<span class="post-time">5 hours ago</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+	a {
+		color: #0000ee;
+		text-decoration: underline;
+	}
 
-					<div class="category-card">
-						<div class="category-icon">
-							<i class="icon-server"></i>
-						</div>
-						<div class="category-content">
-							<h3 class="category-title">
-								<a href="/category/backend-development">Backend Development</a>
-							</h3>
-							<p class="category-description">APIs, databases, server architecture, and DevOps</p>
-							<div class="category-stats">
-								<span class="stat">156 topics</span>
-								<span class="stat">743 posts</span>
-							</div>
-						</div>
-						<div class="category-activity">
-							<div class="latest-post">
-								<div class="post-avatar">
-									<img src="/images/avatars/user3.jpg" alt="User Avatar" />
-								</div>
-								<div class="post-info">
-									<a href="/topic/microservices" class="post-title">Microservices Architecture</a>
-									<div class="post-meta">
-										<span class="post-author">by David Kim</span>
-										<span class="post-time">1 day ago</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+	a:visited {
+		color: #551a8b;
+	}
 
-					<div class="category-card">
-						<div class="category-icon">
-							<i class="icon-design"></i>
-						</div>
-						<div class="category-content">
-							<h3 class="category-title">
-								<a href="/category/design">Design & UX</a>
-							</h3>
-							<p class="category-description">UI/UX design, prototyping, and user research</p>
-							<div class="category-stats">
-								<span class="stat">98 topics</span>
-								<span class="stat">432 posts</span>
-							</div>
-						</div>
-						<div class="category-activity">
-							<div class="latest-post">
-								<div class="post-avatar">
-									<img src="/images/avatars/user4.jpg" alt="User Avatar" />
-								</div>
-								<div class="post-info">
-									<a href="/topic/design-systems" class="post-title">Building Design Systems</a>
-									<div class="post-meta">
-										<span class="post-author">by Sarah Johnson</span>
-										<span class="post-time">2 days ago</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+	a:hover {
+		background-color: #ffff00;
+	}
 
-			<!-- Sidebar -->
-			<div class="sidebar">
-				<!-- Recent Activity -->
-				<div class="widget">
-					<h3 class="widget-title">Recent Activity</h3>
-					<div class="activity-list">
-						<div class="activity-item">
-							<div class="activity-avatar">
-								<img src="/images/avatars/user5.jpg" alt="User Avatar" />
-							</div>
-							<div class="activity-content">
-								<p>
-									<strong>Emma Wilson</strong> replied to
-									<a href="/topic/async-await">Async/Await Best Practices</a>
-								</p>
-								<span class="activity-time">5 minutes ago</span>
-							</div>
-						</div>
-						<div class="activity-item">
-							<div class="activity-avatar">
-								<img src="/images/avatars/user6.jpg" alt="User Avatar" />
-							</div>
-							<div class="activity-content">
-								<p>
-									<strong>James Park</strong> started a new topic
-									<a href="/topic/typescript-generics">TypeScript Generics</a>
-								</p>
-								<span class="activity-time">15 minutes ago</span>
-							</div>
-						</div>
-						<div class="activity-item">
-							<div class="activity-avatar">
-								<img src="/images/avatars/user7.jpg" alt="User Avatar" />
-							</div>
-							<div class="activity-content">
-								<p>
-									<strong>Lisa Chang</strong> liked a post in
-									<a href="/topic/css-grid">CSS Grid Layout</a>
-								</p>
-								<span class="activity-time">1 hour ago</span>
-							</div>
-						</div>
-					</div>
-				</div>
+	table {
+		border-collapse: collapse;
+		width: 100%;
+		background-color: #ffffff;
+		border: 2px solid #000000;
+	}
 
-				<!-- Online Users -->
-				<div class="widget">
-					<h3 class="widget-title">Online Now</h3>
-					<div class="online-users">
-						<div class="user-list">
-							<div class="user-item">
-								<div class="user-avatar">
-									<img src="/images/avatars/user8.jpg" alt="User Avatar" />
-									<div class="online-indicator"></div>
-								</div>
-								<span class="user-name">Michael Brown</span>
-							</div>
-							<div class="user-item">
-								<div class="user-avatar">
-									<img src="/images/avatars/user9.jpg" alt="User Avatar" />
-									<div class="online-indicator"></div>
-								</div>
-								<span class="user-name">Anna Taylor</span>
-							</div>
-							<div class="user-item">
-								<div class="user-avatar">
-									<img src="/images/avatars/user10.jpg" alt="User Avatar" />
-									<div class="online-indicator"></div>
-								</div>
-								<span class="user-name">Robert Davis</span>
-							</div>
-						</div>
-						<div class="online-count">
-							<span>247 users online</span>
-						</div>
-					</div>
-				</div>
+	th,
+	td {
+		border: 1px solid #cccccc;
+		padding: 4px 8px;
+		text-align: left;
+	}
 
-				<!-- Forum Stats -->
-				<div class="widget">
-					<h3 class="widget-title">Forum Statistics</h3>
-					<div class="stats-grid">
-						<div class="stat-box">
-							<div class="stat-value">15,234</div>
-							<div class="stat-label">Total Members</div>
-						</div>
-						<div class="stat-box">
-							<div class="stat-value">2,345</div>
-							<div class="stat-label">Topics</div>
-						</div>
-						<div class="stat-box">
-							<div class="stat-value">45,876</div>
-							<div class="stat-label">Posts</div>
-						</div>
-						<div class="stat-box">
-							<div class="stat-value">1,234</div>
-							<div class="stat-label">Today's Posts</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+	th {
+		background-color: #dddddd;
+		font-weight: bold;
+	}
+
+	tr:nth-child(even) {
+		background-color: #f9f9f9;
+	}
+
+	tr:hover {
+		background-color: #e6e6e6;
+	}
+
+	.container {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 10px;
+	}
+
+	/* Page Specific CSS */
+	.header {
+		background-color: #000080;
+		color: #ffffff;
+		padding: 15px;
+		text-align: center;
+		border: 3px solid #000000;
+		margin-bottom: 20px;
+	}
+
+	.header h1 {
+		font-size: 24px;
+		font-weight: bold;
+		text-shadow: 2px 2px 0px #000000;
+	}
+
+	.header p {
+		font-size: 14px;
+		margin-top: 5px;
+	}
+
+	.navigation {
+		background-color: #c0c0c0;
+		border: 2px solid #000000;
+		padding: 10px;
+		margin-bottom: 20px;
+	}
+
+	.navigation a {
+		margin-right: 20px;
+		font-weight: bold;
+		text-decoration: none;
+		color: #000000;
+		padding: 2px 4px;
+		border: 1px solid #808080;
+		background-color: #e0e0e0;
+	}
+
+	.navigation a:hover {
+		background-color: #ffffff;
+		border: 1px solid #000000;
+	}
+
+	.stats-bar {
+		background-color: #ffff99;
+		border: 2px solid #000000;
+		padding: 10px;
+		margin-bottom: 20px;
+		text-align: center;
+	}
+
+	.forum-table {
+		margin-bottom: 20px;
+	}
+
+	.forum-table th {
+		background-color: #4169e1;
+		color: #ffffff;
+		font-weight: bold;
+	}
+
+	.forum-icon {
+		text-align: center;
+		width: 30px;
+	}
+
+	.forum-name {
+		font-weight: bold;
+		width: 40%;
+	}
+
+	.forum-description {
+		font-style: italic;
+		color: #666666;
+		font-size: 11px;
+	}
+
+	.forum-stats {
+		text-align: center;
+		width: 80px;
+		font-size: 11px;
+	}
+
+	.forum-lastpost {
+		width: 150px;
+		font-size: 11px;
+	}
+
+	.online-users {
+		background-color: #90ee90;
+		border: 2px solid #000000;
+		padding: 10px;
+		margin-bottom: 20px;
+	}
+
+	.online-users h3 {
+		margin-bottom: 10px;
+		font-size: 14px;
+	}
+
+	.user-list {
+		font-size: 11px;
+	}
+
+	.user-list a {
+		margin-right: 10px;
+	}
+
+	.footer {
+		background-color: #808080;
+		color: #ffffff;
+		text-align: center;
+		padding: 15px;
+		border: 2px solid #000000;
+		margin-top: 20px;
+	}
+
+	.login-form {
+		background-color: #ffd700;
+		border: 2px solid #000000;
+		padding: 10px;
+		margin-bottom: 20px;
+	}
+
+	.login-form input {
+		font-family: 'Courier New', monospace;
+		font-size: 12px;
+		padding: 2px;
+		margin: 2px;
+		border: 1px solid #000000;
+	}
+
+	.login-form button {
+		font-family: 'Courier New', monospace;
+		font-size: 12px;
+		padding: 4px 8px;
+		background-color: #e0e0e0;
+		border: 2px solid #000000;
+		cursor: pointer;
+	}
+
+	.login-form button:hover {
+		background-color: #ffffff;
+	}
+
+	.sticky-post {
+		background-color: #ffffcc;
+	}
+
+	.announcement {
+		background-color: #ff6666;
+		color: #ffffff;
+		padding: 10px;
+		border: 2px solid #000000;
+		margin-bottom: 20px;
+		text-align: center;
+	}
+
+	.blink {
+		animation: blink 1s infinite;
+	}
+
+	@keyframes blink {
+		0%,
+		50% {
+			opacity: 1;
+		}
+		51%,
+		100% {
+			opacity: 0;
+		}
+	}
+</style>
