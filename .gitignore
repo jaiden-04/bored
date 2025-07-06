@@ -1,17 +1,23 @@
-# Ignore build artifacts
-bin/
-obj/
+node_modules
 
-# Ignore user-specific files
-.vs/
-*.user
-*.suo
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
 
-# Ignore OS files
+# OS
 .DS_Store
 Thumbs.db
 
-# Ignore Rider IDE and VS Code metadata
-.idea/
-.vscode/
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
 
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
