@@ -14,3 +14,8 @@ Thumbs.db
 # Ignore Rider IDE and VS Code metadata
 .idea/
 .vscode/
+
+# Don't ignore default images
+
+
+!*/
