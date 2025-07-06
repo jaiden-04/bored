@@ -1,256 +1,448 @@
-<header class="modern-header">
-	<nav class="navbar">
-		<div class="nav-container">
-			<!-- Logo and Brand -->
-			<div class="nav-brand">
-				<a href="/" class="brand-link">
-					<div class="brand-logo">
-						<span class="logo-icon">🚀</span>
-					</div>
-					<div class="brand-text">
-						<span class="brand-name">TechForum</span>
-						<span class="brand-tagline">Connect & Learn</span>
-					</div>
-				</a>
-			</div>
+<script lang="ts">
+  import { onMount } from 'svelte';
 
-			<!-- Desktop Navigation -->
-			<div class="nav-menu">
-				<a href="/" class="nav-link active">
-					<span class="nav-icon">🏠</span>
-					<span>Home</span>
-				</a>
-				<a href="/categories" class="nav-link">
-					<span class="nav-icon">📁</span>
-					<span>Categories</span>
-				</a>
-				<a href="/topics" class="nav-link">
-					<span class="nav-icon">💬</span>
-					<span>Topics</span>
-				</a>
-				<a href="/members" class="nav-link">
-					<span class="nav-icon">👥</span>
-					<span>Members</span>
-				</a>
-				<a href="/search" class="nav-link">
-					<span class="nav-icon">🔍</span>
-					<span>Search</span>
-				</a>
-			</div>
+  let username = '';
+  let password = '';
+  let clickCount = 0;
+  let backgroundColor = '#f0f0f0';
 
-			<!-- Search Bar -->
-			<div class="nav-search">
-				<div class="search-container">
-					<input type="text" placeholder="Search topics, posts..." class="search-input" />
-					<button class="search-button">
-						<span class="search-icon">🔍</span>
-					</button>
-				</div>
-			</div>
+  function login() {
+    if (username && password) {
+      alert('Login functionality would be implemented here.\nUsername: ' + username);
+    } else {
+      alert('Please enter both username and password.');
+    }
+  }
 
-			<!-- User Actions -->
-			<div class="nav-actions">
-				<button class="action-button notifications">
-					<span class="action-icon">🔔</span>
-					<span class="notification-badge">3</span>
-				</button>
-				<button class="action-button messages">
-					<span class="action-icon">💬</span>
-					<span class="notification-badge">1</span>
-				</button>
-				<div class="user-menu">
-					<button class="user-button">
-						<img src="/images/avatars/current-user.jpg" alt="User Avatar" class="user-avatar" />
-						<span class="user-name">John Doe</span>
-						<span class="dropdown-arrow">▼</span>
-					</button>
-					<div class="user-dropdown">
-						<a href="/profile" class="dropdown-item">
-							<span class="dropdown-icon">👤</span>
-							<span>Profile</span>
-						</a>
-						<a href="/settings" class="dropdown-item">
-							<span class="dropdown-icon">⚙️</span>
-							<span>Settings</span>
-						</a>
-						<a href="/bookmarks" class="dropdown-item">
-							<span class="dropdown-icon">🔖</span>
-							<span>Bookmarks</span>
-						</a>
-						<div class="dropdown-divider"></div>
-						<a href="/logout" class="dropdown-item">
-							<span class="dropdown-icon">🚪</span>
-							<span>Sign Out</span>
-						</a>
-					</div>
-				</div>
-			</div>
+  function register() {
+    alert('Registration page would open here.');
+  }
 
-			<!-- Mobile Menu Toggle -->
-			<button class="mobile-menu-toggle">
-				<span class="hamburger-line"></span>
-				<span class="hamburger-line"></span>
-				<span class="hamburger-line"></span>
-			</button>
-		</div>
-	</nav>
+  function handleForumClick(e: Event) {
+    e.preventDefault();
+    clickCount++;
+    console.log(`Forum link clicked! Total clicks: ${clickCount}`);
+    
+    const messages = [
+      'Loading forum...',
+      'Connecting to server...',
+      'Retrieving posts...',
+      'Forum temporarily unavailable',
+      'This feature is under construction'
+    ];
+    
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    alert(randomMessage);
+  }
 
-	<!-- Mobile Menu -->
-	<div class="mobile-menu">
-		<div class="mobile-menu-content">
-			<a href="/" class="mobile-nav-link active">
-				<span class="nav-icon">🏠</span>
-				<span>Home</span>
-			</a>
-			<a href="/categories" class="mobile-nav-link">
-				<span class="nav-icon">📁</span>
-				<span>Categories</span>
-			</a>
-			<a href="/topics" class="mobile-nav-link">
-				<span class="nav-icon">💬</span>
-				<span>Topics</span>
-			</a>
-			<a href="/members" class="mobile-nav-link">
-				<span class="nav-icon">👥</span>
-				<span>Members</span>
-			</a>
-			<a href="/search" class="mobile-nav-link">
-				<span class="nav-icon">🔍</span>
-				<span>Search</span>
-			</a>
-			<div class="mobile-menu-divider"></div>
-			<a href="/profile" class="mobile-nav-link">
-				<span class="nav-icon">👤</span>
-				<span>Profile</span>
-			</a>
-			<a href="/settings" class="mobile-nav-link">
-				<span class="nav-icon">⚙️</span>
-				<span>Settings</span>
-			</a>
-			<a href="/logout" class="mobile-nav-link">
-				<span class="nav-icon">🚪</span>
-				<span>Sign Out</span>
-			</a>
-		</div>
-	</div>
-</header>
+  onMount(() => {
+    const interval = setInterval(() => {
+      const colors = ['#f0f0f0', '#f5f5f5', '#e8e8e8', '#f0f8ff'];
+      backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    }, 30000);
 
-<main role="main">
-	<slot />
-</main>
+    return () => clearInterval(interval);
+  });
+</script>
 
-<footer class="modern-footer">
-	<div class="footer-container">
-		<div class="footer-content">
-			<div class="footer-section">
-				<div class="footer-brand">
-					<div class="footer-logo">
-						<span class="logo-icon">🚀</span>
-						<span class="brand-name">TechForum</span>
-					</div>
-					<p class="footer-description">
-						Connect with developers worldwide. Share knowledge, learn new skills, and build amazing
-						things together.
-					</p>
-					<div class="footer-social">
-						<a href="#" class="social-link">📘</a>
-						<a href="#" class="social-link">🐦</a>
-						<a href="#" class="social-link">💼</a>
-						<a href="#" class="social-link">📸</a>
-					</div>
-				</div>
-			</div>
+<svelte:head>
+  <title>RetroForum - Classic Discussion Board</title>
+</svelte:head>
 
-			<div class="footer-section">
-				<h4 class="footer-title">Community</h4>
-				<ul class="footer-links">
-					<li><a href="/categories">Categories</a></li>
-					<li><a href="/topics">Recent Topics</a></li>
-					<li><a href="/members">Members</a></li>
-					<li><a href="/leaderboard">Leaderboard</a></li>
-				</ul>
-			</div>
+<div class="container" style="background-color: {backgroundColor};">
+  <!-- Header -->
+  <div class="header">
+    <h1>🌐 RetroForum 🌐</h1>
+    <p>Classic Discussion Board - Est. 1995</p>
+  </div>
 
-			<div class="footer-section">
-				<h4 class="footer-title">Support</h4>
-				<ul class="footer-links">
-					<li><a href="/help">Help Center</a></li>
-					<li><a href="/guidelines">Guidelines</a></li>
-					<li><a href="/contact">Contact Us</a></li>
-					<li><a href="/feedback">Feedback</a></li>
-				</ul>
-			</div>
+  <!-- Navigation -->
+  <div class="navigation">
+    <a href="#home" on:click={handleForumClick}>Home</a>
+    <a href="#search" on:click={handleForumClick}>Search</a>
+    <a href="#members" on:click={handleForumClick}>Members</a>
+    <a href="#help" on:click={handleForumClick}>Help</a>
+    <a href="#admin" on:click={handleForumClick}>Admin</a>
+  </div>
 
-			<div class="footer-section">
-				<h4 class="footer-title">Legal</h4>
-				<ul class="footer-links">
-					<li><a href="/privacy">Privacy Policy</a></li>
-					<li><a href="/terms">Terms of Service</a></li>
-					<li><a href="/cookies">Cookie Policy</a></li>
-					<li><a href="/dmca">DMCA</a></li>
-				</ul>
-			</div>
-		</div>
+  <!-- Announcement -->
+  <div class="announcement">
+    <strong class="blink">NEW!</strong> Welcome to RetroForum! Please read the rules before posting.
+  </div>
 
-		<div class="footer-bottom">
-			<div class="footer-bottom-content">
-				<p class="footer-copyright">© 2025 TechForum. All rights reserved.</p>
-				<div class="footer-bottom-links">
-					<span class="footer-stats">15.2k members • 2.3k topics • 45.8k posts</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</footer>
+  <!-- Login Form -->
+  <div class="login-form">
+    <strong>Quick Login:</strong>
+    <input type="text" placeholder="Username" bind:value={username}>
+    <input type="password" placeholder="Password" bind:value={password}>
+    <button on:click={login}>Login</button>
+    <button on:click={register}>Register</button>
+  </div>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <strong>Forum Stats:</strong> 1,337 Members | 42,069 Posts | 3,141 Topics | 13 Online Now
+  </div>
+
+  <!-- Main Forum Table -->
+  <table class="forum-table">
+    <thead>
+      <tr>
+        <th>📁</th>
+        <th>Forum</th>
+        <th>Topics</th>
+        <th>Posts</th>
+        <th>Last Post</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="sticky-post">
+        <td class="forum-icon">📌</td>
+        <td class="forum-name">
+          <a href="#announcements" on:click={handleForumClick}>Announcements</a>
+          <br><span class="forum-description">Official site news and updates</span>
+        </td>
+        <td class="forum-stats">15</td>
+        <td class="forum-stats">89</td>
+        <td class="forum-lastpost">
+          <strong>Admin</strong><br>
+          Today, 14:32
+        </td>
+      </tr>
+      <tr>
+        <td class="forum-icon">💬</td>
+        <td class="forum-name">
+          <a href="#general" on:click={handleForumClick}>General Discussion</a>
+          <br><span class="forum-description">Talk about anything and everything</span>
+        </td>
+        <td class="forum-stats">1,234</td>
+        <td class="forum-stats">15,678</td>
+        <td class="forum-lastpost">
+          <strong>RetroUser99</strong><br>
+          Today, 16:45
+        </td>
+      </tr>
+      <tr>
+        <td class="forum-icon">💻</td>
+        <td class="forum-name">
+          <a href="#tech" on:click={handleForumClick}>Technology</a>
+          <br><span class="forum-description">Hardware, software, and tech support</span>
+        </td>
+        <td class="forum-stats">456</td>
+        <td class="forum-stats">8,901</td>
+        <td class="forum-lastpost">
+          <strong>TechWiz</strong><br>
+          Today, 15:20
+        </td>
+      </tr>
+      <tr>
+        <td class="forum-icon">🎮</td>
+        <td class="forum-name">
+          <a href="#gaming" on:click={handleForumClick}>Gaming</a>
+          <br><span class="forum-description">Video games, reviews, and discussions</span>
+        </td>
+        <td class="forum-stats">789</td>
+        <td class="forum-stats">12,345</td>
+        <td class="forum-lastpost">
+          <strong>GameMaster</strong><br>
+          Today, 13:15
+        </td>
+      </tr>
+      <tr>
+        <td class="forum-icon">🎵</td>
+        <td class="forum-name">
+          <a href="#music" on:click={handleForumClick}>Music & Entertainment</a>
+          <br><span class="forum-description">Share your favorite tunes and shows</span>
+        </td>
+        <td class="forum-stats">234</td>
+        <td class="forum-stats">3,456</td>
+        <td class="forum-lastpost">
+          <strong>MusicLover</strong><br>
+          Yesterday, 22:30
+        </td>
+      </tr>
+      <tr>
+        <td class="forum-icon">🔧</td>
+        <td class="forum-name">
+          <a href="#support" on:click={handleForumClick}>Technical Support</a>
+          <br><span class="forum-description">Get help with forum issues</span>
+        </td>
+        <td class="forum-stats">67</td>
+        <td class="forum-stats">234</td>
+        <td class="forum-lastpost">
+          <strong>SupportGuru</strong><br>
+          Yesterday, 18:45
+        </td>
+      </tr>
+      <tr>
+        <td class="forum-icon">🗑️</td>
+        <td class="forum-name">
+          <a href="#offtopic" on:click={handleForumClick}>Off-Topic</a>
+          <br><span class="forum-description">Random discussions and spam</span>
+        </td>
+        <td class="forum-stats">2,345</td>
+        <td class="forum-stats">25,678</td>
+        <td class="forum-lastpost">
+          <strong>RandomUser</strong><br>
+          Today, 16:58
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Online Users -->
+  <div class="online-users">
+    <h3>👥 Currently Online Users (13):</h3>
+    <div class="user-list">
+      <a href="#user" on:click={handleForumClick}>Admin</a>
+      <a href="#user" on:click={handleForumClick}>RetroUser99</a>
+      <a href="#user" on:click={handleForumClick}>TechWiz</a>
+      <a href="#user" on:click={handleForumClick}>GameMaster</a>
+      <a href="#user" on:click={handleForumClick}>MusicLover</a>
+      <a href="#user" on:click={handleForumClick}>NewbiePoster</a>
+      <a href="#user" on:click={handleForumClick}>OldTimer</a>
+      <a href="#user" on:click={handleForumClick}>ForumLurker</a>
+      <a href="#user" on:click={handleForumClick}>CodeWarrior</a>
+      <a href="#user" on:click={handleForumClick}>PixelArtist</a>
+      <a href="#user" on:click={handleForumClick}>RetroGamer</a>
+      <a href="#user" on:click={handleForumClick}>ChatMaster</a>
+      <a href="#user" on:click={handleForumClick}>DialupUser</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>&copy; 2025 RetroForum | Powered by Classic BBS Software v2.1</p>
+    <p>Best viewed in Netscape Navigator 4.0+ or Internet Explorer 3.0+</p>
+    <p><a href="mailto:admin@retroforum.net" style="color: #ffffff;">Contact Admin</a></p>
+  </div>
+</div>
 
 <style>
-	/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-    for details on configuring this project to bundle and minify static web assets. */
+  /* Global CSS */
+  :global(*) {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-    a.navbar-brand {
-		white-space: normal;
-		text-align: center;
-		word-break: break-all;
-	}
+  :global(body) {
+    font-family: 'Courier New', monospace;
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.4;
+    font-size: 12px;
+  }
 
-	a {
-		color: #0077cc;
-	}
+  a {
+    color: #0000ee;
+    text-decoration: underline;
+  }
 
-	.btn-primary {
-		color: #fff;
-		background-color: #1b6ec2;
-		border-color: #1861ac;
-	}
+  a:visited {
+    color: #551a8b;
+  }
 
-	.nav-pills .nav-link.active,
-	.nav-pills .show > .nav-link {
-		color: #fff;
-		background-color: #1b6ec2;
-		border-color: #1861ac;
-	}
+  a:hover {
+    background-color: #ffff00;
+  }
 
-	.border-top {
-		border-top: 1px solid #e5e5e5;
-	}
-	.border-bottom {
-		border-bottom: 1px solid #e5e5e5;
-	}
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+  }
 
-	.box-shadow {
-		box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
-	}
+  th, td {
+    border: 1px solid #cccccc;
+    padding: 4px 8px;
+    text-align: left;
+  }
 
-	button.accept-policy {
-		font-size: 1rem;
-		line-height: inherit;
-	}
+  th {
+    background-color: #dddddd;
+    font-weight: bold;
+  }
 
-	.footer {
-		position: absolute;
-		bottom: 0;
-		width: 100%;
-		white-space: nowrap;
-		line-height: 60px;
-	}
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tr:hover {
+    background-color: #e6e6e6;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  /* Page Specific CSS */
+  .header {
+    background-color: #000080;
+    color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    border: 3px solid #000000;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 0px #000000;
+  }
+
+  .header p {
+    font-size: 14px;
+    margin-top: 5px;
+  }
+
+  .navigation {
+    background-color: #c0c0c0;
+    border: 2px solid #000000;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .navigation a {
+    margin-right: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000000;
+    padding: 2px 4px;
+    border: 1px solid #808080;
+    background-color: #e0e0e0;
+  }
+
+  .navigation a:hover {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+  }
+
+  .stats-bar {
+    background-color: #ffff99;
+    border: 2px solid #000000;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .forum-table {
+    margin-bottom: 20px;
+  }
+
+  .forum-table th {
+    background-color: #4169e1;
+    color: #ffffff;
+    font-weight: bold;
+  }
+
+  .forum-icon {
+    text-align: center;
+    width: 30px;
+  }
+
+  .forum-name {
+    font-weight: bold;
+    width: 40%;
+  }
+
+  .forum-description {
+    font-style: italic;
+    color: #666666;
+    font-size: 11px;
+  }
+
+  .forum-stats {
+    text-align: center;
+    width: 80px;
+    font-size: 11px;
+  }
+
+  .forum-lastpost {
+    width: 150px;
+    font-size: 11px;
+  }
+
+  .online-users {
+    background-color: #90ee90;
+    border: 2px solid #000000;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .online-users h3 {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  .user-list {
+    font-size: 11px;
+  }
+
+  .user-list a {
+    margin-right: 10px;
+  }
+
+  .footer {
+    background-color: #808080;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px;
+    border: 2px solid #000000;
+    margin-top: 20px;
+  }
+
+  .login-form {
+    background-color: #ffd700;
+    border: 2px solid #000000;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .login-form input {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid #000000;
+  }
+
+  .login-form button {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 4px 8px;
+    background-color: #e0e0e0;
+    border: 2px solid #000000;
+    cursor: pointer;
+  }
+
+  .login-form button:hover {
+    background-color: #ffffff;
+  }
+  
+  .sticky-post {
+    background-color: #ffffcc;
+  }
+
+  .announcement {
+    background-color: #ff6666;
+    color: #ffffff;
+    padding: 10px;
+    border: 2px solid #000000;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .blink {
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
 </style>
