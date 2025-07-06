@@ -15,7 +15,3 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Don't ignore default images
-
-
-!*/
