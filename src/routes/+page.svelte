@@ -1,7 +1,8 @@
 <script lang="ts">	
-	let { data } = $props();
-	
-	console.log(data)
+    let { data } = $props();
+    console.log(data);
+	let MemberCount = data ? Object.keys(data).length: 0;
+    console.log(MemberCount);
 </script>
 
 
@@ -41,7 +42,7 @@
 
 	<!-- Stats Bar -->
 	<div class="stats-bar">
-		<strong>Forum Stats:</strong> 1,337 Members | 42,069 Posts | 3,141 Topics | 13 Online Now
+		<strong>Forum Stats:</strong> <strong>{MemberCount}</strong> Members | <strong>[]</strong> Posts | <strong>[]</strong> Topics | <strong>[]</strong> Online Now
 	</div>
 
 	<!-- Main Forum Table -->
