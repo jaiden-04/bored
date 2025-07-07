@@ -1,8 +1,6 @@
 <script lang="ts">	
     let { data } = $props();
-    console.log(data);
-	let MemberCount = data ? Object.keys(data).length: 0;
-    console.log(MemberCount);
+	let MemberCount = data.users?.length;
 </script>
 
 
