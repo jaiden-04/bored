@@ -6,14 +6,14 @@
 
 
 <svelte:head>
-	<title>Some random forum idk</title>
+	<title>SillyBB - Home</title>
 </svelte:head>
 
 <div class="container" style="background-color: #f0f0f0;">
 	<!-- Header -->
 	<div class="header">
 		<h1>SillyBB</h1>
-		<p>Forum software that has a fake retro look :P</p>
+		<p>Yeah idk some random forum i guess</p>
 	</div>
 
 	<!-- Navigation -->
