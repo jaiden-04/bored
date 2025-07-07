@@ -1,22 +1,14 @@
-import type { PageServerLoad } from './$types';
-import { supabase } from '$lib/supabaseClient';
+import { supabase } from "$lib/supabaseClient";
 
-type User = {
-  id: number;
-  name: string;
-};
-
-export const load: PageServerLoad = async () => {
-  const { data, error } = await supabase.from('users').select<any, User>();
-
+export async function load() {
+  let { data: users, error } = await supabase
+    .from('users')
+    .select('*')
+  
   if (error) {
-    console.error('Error loading users:', error.message);
-    return { users: [] };
+    console.error('Error fetching users:', error)
+    return { users: [], error }
   }
-
-  console.log('Success! : ', data);
-
-  return {
-    users: data ?? [],
-  };
-};
+  
+  return { users }
+}
