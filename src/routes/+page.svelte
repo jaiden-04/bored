@@ -6,7 +6,7 @@
 
 
 <svelte:head>
-	<title>SillyBB - Classic Discussion Board</title>
+	<title>Some random forum idk</title>
 </svelte:head>
 
 <div class="container" style="background-color: #f0f0f0;">
