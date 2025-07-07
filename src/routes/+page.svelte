@@ -1,81 +1,15 @@
-<script lang="ts">
-	import { onMount } from 'svelte';
-
-	let username = '';
-	let password = '';
-	let data;
-	let error;
-	let clickCount = 0;
-	let backgroundColor = '#f0f0f0';
-
-	async function loadData() {
-		try {
-			const res = await fetch('/api/sitenotice');
-			if (!res.ok) throw new Error(await res.text());
-			
-			let sitenotice = document.getElementById('sitenotice');
-			let sitenoticeContent = document.getElementById('sitenotice-content');
-			
-			let text = await res.text();
-
-			if (text !== '') {
-				sitenoticeContent!.innerHTML = text;
-			} else {
-				sitenotice!.remove();
-			}
-
-		} catch (err) {
-			error = err instanceof Error ? err.message : 'An unknown error occurred';
-			console.log("Error loading data:", error);
-		}
-	}
-
-	loadData();
-
-	function login() {
-		if (username && password) {
-			alert('Login functionality would be implemented here.\nUsername: ' + username);
-		} else {
-			alert('Please enter both username and password.');
-		}
-	}
-
-	function register() {
-		alert('Registration page would open here.');
-	}
-
-	function handleForumClick(e: Event) {
-		e.preventDefault();
-		clickCount++;
-		console.log(`Forum link clicked! Total clicks: ${clickCount}`);
-
-		const messages = [
-			'Loading forum...',
-			'Connecting to server...',
-			'Retrieving posts...',
-			'Forum temporarily unavailable',
-			'This feature is under construction'
-		];
-
-		const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-		alert(randomMessage);
-	}
-
-	onMount(() => {
-		const interval = setInterval(() => {
-			const colors = ['#f0f0f0', '#f5f5f5', '#e8e8e8', '#f0f8ff'];
-			backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-		}, 30000);
-
-		return () => clearInterval(interval);
-	});
+<script lang="ts">	
+	let { data } = $props();
+	
+	console.log(data)
 </script>
+
 
 <svelte:head>
 	<title>SillyBB - Classic Discussion Board</title>
 </svelte:head>
 
-<div class="container" style="background-color: {backgroundColor};">
+<div class="container" style="background-color: #f0f0f0;">
 	<!-- Header -->
 	<div class="header">
 		<h1>SillyBB</h1>
@@ -84,11 +18,11 @@
 
 	<!-- Navigation -->
 	<div class="navigation">
-		<a href="#home" on:click={handleForumClick}>Home</a>
-		<a href="#search" on:click={handleForumClick}>Search</a>
-		<a href="#members" on:click={handleForumClick}>Members</a>
-		<a href="#help" on:click={handleForumClick}>Help</a>
-		<a href="#admin" on:click={handleForumClick}>Admin</a>
+		<a href="/home">Home</a>
+		<a href="/search">Search</a>
+		<a href="/members">Members</a>
+		<a href="/help">Help</a>
+		<a href="/admin">Admin</a>
 	</div>
 
 	<!-- Announcement -->
@@ -99,10 +33,10 @@
 	<!-- Login Form -->
 	<div class="login-form">
 		<strong>Quick Login:</strong>
-		<input type="text" placeholder="Username" bind:value={username} />
-		<input type="password" placeholder="Password" bind:value={password} />
-		<button on:click={login}>Login</button>
-		<button on:click={register}>Register</button>
+		<input type="text" placeholder="Username"/>
+		<input type="password" placeholder="Password"/>
+		<button>Login</button>
+		<button>Register</button>
 	</div>
 
 	<!-- Stats Bar -->
@@ -125,7 +59,7 @@
 			<tr class="sticky-post">
 				<td class="forum-icon">📌</td>
 				<td class="forum-name">
-					<a href="#announcements" on:click={handleForumClick}>Announcements</a>
+					<a href="#announcements">Announcements</a>
 					<br /><span class="forum-description">Official site news and updates</span>
 				</td>
 				<td class="forum-stats">15</td>
@@ -138,7 +72,7 @@
 			<tr>
 				<td class="forum-icon">💬</td>
 				<td class="forum-name">
-					<a href="#general" on:click={handleForumClick}>General Discussion</a>
+					<a href="#general">General Discussion</a>
 					<br /><span class="forum-description">Talk about anything and everything</span>
 				</td>
 				<td class="forum-stats">1,234</td>
@@ -151,7 +85,7 @@
 			<tr>
 				<td class="forum-icon">💻</td>
 				<td class="forum-name">
-					<a href="#tech" on:click={handleForumClick}>Technology</a>
+					<a href="#tech">Technology</a>
 					<br /><span class="forum-description">Hardware, software, and tech support</span>
 				</td>
 				<td class="forum-stats">456</td>
@@ -164,7 +98,7 @@
 			<tr>
 				<td class="forum-icon">🎮</td>
 				<td class="forum-name">
-					<a href="#gaming" on:click={handleForumClick}>Gaming</a>
+					<a href="#gaming">Gaming</a>
 					<br /><span class="forum-description">Video games, reviews, and discussions</span>
 				</td>
 				<td class="forum-stats">789</td>
@@ -177,7 +111,7 @@
 			<tr>
 				<td class="forum-icon">🎵</td>
 				<td class="forum-name">
-					<a href="#music" on:click={handleForumClick}>Music & Entertainment</a>
+					<a href="#music">Music & Entertainment</a>
 					<br /><span class="forum-description">Share your favorite tunes and shows</span>
 				</td>
 				<td class="forum-stats">234</td>
@@ -190,7 +124,7 @@
 			<tr>
 				<td class="forum-icon">🔧</td>
 				<td class="forum-name">
-					<a href="#support" on:click={handleForumClick}>Technical Support</a>
+					<a href="#support">Technical Support</a>
 					<br /><span class="forum-description">Get help with forum issues</span>
 				</td>
 				<td class="forum-stats">67</td>
@@ -203,7 +137,7 @@
 			<tr>
 				<td class="forum-icon">🗑️</td>
 				<td class="forum-name">
-					<a href="#offtopic" on:click={handleForumClick}>Off-Topic</a>
+					<a href="#offtopic">Off-Topic</a>
 					<br /><span class="forum-description">Random discussions and spam</span>
 				</td>
 				<td class="forum-stats">2,345</td>
@@ -220,19 +154,19 @@
 	<div class="online-users">
 		<h3>👥 Currently Online Users (13):</h3>
 		<div class="user-list">
-			<a href="#user" on:click={handleForumClick}>Admin</a>
-			<a href="#user" on:click={handleForumClick}>RetroUser99</a>
-			<a href="#user" on:click={handleForumClick}>TechWiz</a>
-			<a href="#user" on:click={handleForumClick}>GameMaster</a>
-			<a href="#user" on:click={handleForumClick}>MusicLover</a>
-			<a href="#user" on:click={handleForumClick}>NewbiePoster</a>
-			<a href="#user" on:click={handleForumClick}>OldTimer</a>
-			<a href="#user" on:click={handleForumClick}>ForumLurker</a>
-			<a href="#user" on:click={handleForumClick}>CodeWarrior</a>
-			<a href="#user" on:click={handleForumClick}>PixelArtist</a>
-			<a href="#user" on:click={handleForumClick}>RetroGamer</a>
-			<a href="#user" on:click={handleForumClick}>ChatMaster</a>
-			<a href="#user" on:click={handleForumClick}>DialupUser</a>
+			<a href="#user">Admin</a>
+			<a href="#user">RetroUser99</a>
+			<a href="#user">TechWiz</a>
+			<a href="#user">GameMaster</a>
+			<a href="#user">MusicLover</a>
+			<a href="#user">NewbiePoster</a>
+			<a href="#user">OldTimer</a>
+			<a href="#user">ForumLurker</a>
+			<a href="#user">CodeWarrior</a>
+			<a href="#user">PixelArtist</a>
+			<a href="#user">RetroGamer</a>
+			<a href="#user">ChatMaster</a>
+			<a href="#user">DialupUser</a>
 		</div>
 	</div>
 
