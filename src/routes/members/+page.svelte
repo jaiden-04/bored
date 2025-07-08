@@ -1,15 +1,8 @@
 <script lang="ts">
-    let { data } = $props();
+	let { data } = $props();
 	let MemberCount = data.users?.length;
 </script>
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SillyBB - Members</title>
-</head>
-<body>
 <div class="container" style="background-color: #f0f0f0;">
 	<div class="header">
 		<h1>SillyBB</h1>
@@ -24,13 +17,20 @@
 		<a href="/admin">Admin</a>
 	</div>
 
-    <div class="stats-bar">
-		<strong>Member Stats:</strong> <strong>{MemberCount}</strong> Total Members | <strong>[]</strong> Online Now | <strong>[]</strong> New This Month | <strong>[]</strong> Active This Week
+	<div class="stats-bar">
+		<strong>Member Stats:</strong> <strong>{MemberCount}</strong> Total Members |
+		<strong>[]</strong>
+		Online Now | <strong>[]</strong> New This Month | <strong>[]</strong> Active This Week
 	</div>
 
 	<div class="search-form">
 		<strong>Search Members:</strong>
-		<input type="text" id="memberSearch" placeholder="Enter username or part of username..." style="width: 250px;">
+		<input
+			type="text"
+			id="memberSearch"
+			placeholder="Enter username or part of username..."
+			style="width: 250px;"
+		/>
 		<button>Search</button>
 		<button>Clear</button>
 	</div>
@@ -56,8 +56,7 @@
 				<th>Last Seen</th>
 			</tr>
 		</thead>
-		<tbody id="membersTableBody">
-		</tbody>
+		<tbody id="membersTableBody"> </tbody>
 	</table>
 
 	<div class="pagination">
@@ -381,5 +380,3 @@
 		}
 	}
 </style>
-</body>
-</html>
